@@ -1,11 +1,11 @@
-# Build Stage using Maven image which includes JDK and Maven
-FROM maven:3.8.5-openjdk-17 AS build
+# Build Stage using Java 21 and Maven
+FROM maven:3.9.6-eclipse-temurin-21 AS build
 WORKDIR /app
 COPY . .
 RUN mvn clean package -DskipTests
 
-# Run Stage
-FROM eclipse-temurin:17-jre-jammy
+# Run Stage using Java 21 JRE
+FROM eclipse-temurin:21-jre-jammy
 WORKDIR /app
 COPY --from=build /app/target/*.jar app.jar
 EXPOSE 8080
